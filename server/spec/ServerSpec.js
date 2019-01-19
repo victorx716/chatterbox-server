@@ -75,7 +75,6 @@ describe('Node Server Request Listener Function', function() {
     var res = new stubs.response();
 
     handler.requestHandler(req, res);
-
     expect(res._responseCode).to.equal(201);
 
     // Now if we request the log for that room the message we posted should be there:
