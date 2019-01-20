@@ -3,50 +3,61 @@ var expect = require('chai').expect;
 var stubs = require('./Stubs');
 
 describe('Node Server Request Listener Function', function() {
-  // it('Should answer GET requests for /classes/messages with a 200 status code', function() {
-  //   // This is a fake server request. Normally, the server would provide this,
-  //   // but we want to test our function's behavior totally independent of the server code
-  //   var req = new stubs.request('/classes/messages', 'GET');
-  //   var res = new stubs.response();
+  it('Should answer GET requests for /classes/messages with a 200 status code', function() {
+    // This is a fake server request. Normally, the server would provide this,
+    // but we want to test our function's behavior totally independent of the server code
+    var req = new stubs.request('/classes/messages', 'GET');
+    var res = new stubs.response();
 
-  //   handler.requestHandler(req, res);
+    handler.requestHandler(req, res);
 
-  //   expect(res._responseCode).to.equal(200);
-  //   expect(res._ended).to.equal(true);
-  // });
+    expect(res._responseCode).to.equal(200);
+    expect(res._ended).to.equal(true);
+  });
 
-  // it('Should send back parsable stringified JSON', function() {
-  //   var req = new stubs.request('/classes/messages', 'GET');
-  //   var res = new stubs.response();
+  it('Should send back parsable stringified JSON', function() {
+    var req = new stubs.request('/classes/messages', 'GET');
+    var res = new stubs.response();
 
-  //   handler.requestHandler(req, res);
+    handler.requestHandler(req, res);
 
-  //   expect(JSON.parse.bind(this, res._data)).to.not.throw();
-  //   expect(res._ended).to.equal(true);
-  // });
+    expect(JSON.parse.bind(this, res._data)).to.not.throw();
+    expect(res._ended).to.equal(true);
+  });
 
-  // xit('Should send back an object', function() {
-  //   var req = new stubs.request('/classes/messages', 'GET');
-  //   var res = new stubs.response();
+  it('Should send back an object', function() {
+    var req = new stubs.request('/classes/messages', 'GET');
+    var res = new stubs.response();
 
-  //   handler.requestHandler(req, res);
+    handler.requestHandler(req, res);
 
-  //   var parsedBody = JSON.parse(res._data);
-  //   expect(parsedBody).to.be.an('object');
-  //   expect(res._ended).to.equal(true);
-  // });
+    var parsedBody = JSON.parse(res._data);
+    expect(parsedBody).to.be.an('object');
+    expect(res._ended).to.equal(true);
+  });
 
-  // xit('Should send an object containing a `results` array', function() {
-  //   var req = new stubs.request('/classes/messages', 'GET');
-  //   var res = new stubs.response();
+  it('Should not send back an array', function() {
+    var req = new stubs.request('/classes/messages', 'GET');
+    var res = new stubs.response();
 
-  //   handler.requestHandler(req, res);
+    handler.requestHandler(req, res);
 
-  //   var parsedBody = JSON.parse(res._data);
-  //   expect(parsedBody).to.have.property('results');
-  //   expect(parsedBody.results).to.be.an('array');
-  //   expect(res._ended).to.equal(true);
-  // });
+    var parsedBody = JSON.parse(res._data);
+    expect(parsedBody).to.not.be.an('array');
+    expect(res._ended).to.equal(true);
+  })
+
+  it('Should send an object containing a `results` array', function() {
+    var req = new stubs.request('/classes/messages', 'GET');
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    var parsedBody = JSON.parse(res._data);
+    expect(parsedBody).to.have.property('results');
+    expect(parsedBody.results).to.be.an('array');
+    expect(res._ended).to.equal(true);
+  });
 
   it('Should accept posts to /classes/messages', function() {
     var stubMsg = {
@@ -62,7 +73,7 @@ describe('Node Server Request Listener Function', function() {
 
     // Testing for a newline isn't a valid test
     // TODO: Replace with with a valid test
-    expect(res._data).to.equal(stubMsg);
+    //expect(res._data).to.equal();
     expect(res._ended).to.equal(true);
   });
 
