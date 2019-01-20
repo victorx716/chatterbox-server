@@ -15,6 +15,12 @@ this file and include it in basic-server.js so that it actually works.
 var dataObject = {};
 var dataArray = [];
 dataObject.results = dataArray;
+var objectId = 0; 
+var roomname = 'lobby';
+var createdAt = new Date();
+var updatedAt = new Date();
+
+
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -42,7 +48,6 @@ var requestHandler = function(request, response) {
   }
   if (request.url.includes('/classes/messages') && request.method === "GET" ) {
     var statusCode = 200;
-    console.log('get');
     var headers = defaultCorsHeaders;
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
@@ -55,7 +60,6 @@ var requestHandler = function(request, response) {
 
       var statusCode = 201;
       var headers = defaultCorsHeaders;
-      console.log('post');
       headers['Content-Type'] = 'application/json';
      response.writeHead(statusCode, headers);
       var body = [];
@@ -64,10 +68,14 @@ var requestHandler = function(request, response) {
       }).on('end', () => {
       body = Buffer.concat(body).toString();
       var finished = JSON.parse(body)
+      finished.objectId = objectId,
+      finished.roomname = roomname,
+      finished.createdAt = createdAt,
+      finished.updatedAt = updatedAt,
       dataArray.push(finished );
       response.end(JSON.stringify(dataObject));
       })
-    
+      objectId++; 
 
  }
      
